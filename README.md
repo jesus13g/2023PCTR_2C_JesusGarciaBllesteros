@@ -1,4 +1,4 @@
-## _Practica dependencias de estado _
+## _Practica dependencias de estado_
 ## 2C
 
 El objetivo de esta práctica es la aplicación de todos los conceptos de concurrencia estudiados a lo 
