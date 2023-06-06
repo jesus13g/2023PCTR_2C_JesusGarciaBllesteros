@@ -19,7 +19,9 @@ public class ActividadAliada implements Runnable{
 	
 	@Override
 	public void run() {
+		//Inicia el hilo
 		try {
+			// Se genera un aliado si se dan las precondiciones y se dan despues las invariantes
 			this.juego.eliminarEnemigo(aliado);
 			TimeUnit.MILLISECONDS.sleep(new Random().nextInt(5)*1000);
 		}catch(InterruptedException e) {
