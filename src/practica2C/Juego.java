@@ -24,12 +24,12 @@ public class Juego implements IJuego {
     @Override
     public synchronized void generarEnemigo(int enemigo) {
 
-        if (this.contadoresEnemigosTipo.get(enemigo) == null) {
+        if (this.contadoresEnemigosTipo.get(enemigo) == null) { // Comprobamos que se ha creado una entrada en el dict
             this.contadoresEnemigosTipo.put(enemigo, 0);
             this.contadoresEliminadosTipo.put(enemigo, 0);
         }
 
-        this.comprobarAntesDeGenerar(enemigo);
+        this.comprobarAntesDeGenerar(enemigo); // Precondicion
 
         this.contadorEnemigosTotales += 1; // Aumentamos el contador 
 
@@ -37,7 +37,7 @@ public class Juego implements IJuego {
 
         checkInvariante(); // Comprobamos la invarianza
 
-        imprimirInfo(enemigo, "Generado"); // Imprimimos la generación
+        imprimirInfo(enemigo, "Generado"); // Imprimimos la generaciÃ³n
 
         this.notifyAll();
     }
@@ -45,7 +45,7 @@ public class Juego implements IJuego {
     @Override
     public synchronized void eliminarEnemigo(int enemigo) {
 
-    	this.comprobarAntesDeEliminar(enemigo);
+    	this.comprobarAntesDeEliminar(enemigo); // Precondicion 
 
         this.contadorEnemigosTotales -= 1; // Reducimos el contador 
 
@@ -56,7 +56,7 @@ public class Juego implements IJuego {
 
         checkInvariante(); // Comprobamos la invarianza
 
-        imprimirInfo(enemigo, "Eliminado"); // Imprimimos la eliminación
+        imprimirInfo(enemigo, "Eliminado"); // Imprimimos la eliminaciÃ³n
 
         this.notifyAll();
        
@@ -76,7 +76,7 @@ public class Juego implements IJuego {
     public int sumarContadores() {
         int contador = 0;
         Enumeration<Integer> iter_contadores = this.contadoresEnemigosTipo.elements();
-        while (iter_contadores.hasMoreElements()) {
+        while (iter_contadores.hasMoreElements()) { // Iteramos todos los contadores de cada tipo de enemigo 
             contador += iter_contadores.nextElement();
         }
         return contador;
@@ -84,13 +84,13 @@ public class Juego implements IJuego {
 
 
     public void checkInvariante() {
-        assert this.sumarContadores() == this.contadorEnemigosTotales;
+        assert this.sumarContadores() == this.contadorEnemigosTotales; //El contador igual a la suma de estos.
     }
 
 
     public void comprobarAntesDeGenerar(int enemigo) {
         if (enemigo != 0) {
-            while (this.contadoresEnemigosTipo.get(enemigo - 1) == null) {
+            while (this.contadoresEnemigosTipo.get(enemigo - 1) == null) { // Espera mientras no se halla generado un enemigo de menor tipo 
                 try {
                     this.wait();
                 } catch (InterruptedException e) {
@@ -98,7 +98,7 @@ public class Juego implements IJuego {
                 }
             }
             
-            while (this.sumarContadores() == this.MAXENEMIGOS) {
+            while (this.sumarContadores() == this.MAXENEMIGOS) { // Se comprueba que no se supere el maximo de enemigos
                 try {
                     this.wait();
                 } catch (InterruptedException e) {
@@ -112,15 +112,16 @@ public class Juego implements IJuego {
 
 
     public void comprobarAntesDeEliminar(int enemigo) {
-        while (this.contadoresEnemigosTipo.get(enemigo) == null) {
+        // Comprueba si existe el enemigo a eliminar, si no existe espera
+        while (this.contadoresEnemigosTipo.get(enemigo) == null) { 
             try {
                 this.wait();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
-        
-        while ( this.contadoresEnemigosTipo.get(enemigo) == 0 || this.sumarContadores() == this.MINENEMIGOS) {
+        //Espera si noy hay enemigos de ese tipo
+        while ( this.contadoresEnemigosTipo.get(enemigo) == 0 || this.sumarContadores() == this.MINENEMIGOS) { 
             try {
                 this.wait();
             } catch (InterruptedException e) {
