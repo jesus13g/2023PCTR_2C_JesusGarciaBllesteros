@@ -25,6 +25,7 @@ public class ActividadAliada implements Runnable{
 			this.juego.eliminarEnemigo(aliado);
 			TimeUnit.MILLISECONDS.sleep(new Random().nextInt(5)*1000);
 		}catch(InterruptedException e) {
+			// En caso de que el hilo quede interrumpido se tratara la excepcion 
 			Logger.getGlobal().log(Level.INFO, "Actividad aliada interrumpida");
 			Logger.getGlobal().log(Level.INFO, e.toString());
 			return;
