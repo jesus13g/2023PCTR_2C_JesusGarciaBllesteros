@@ -17,10 +17,14 @@ public class ActividadEnemiga implements Runnable {
 	}
 	@Override
 	public void run() {
+		// El hilo se lanza 
 		try {
-			this.juego.generarEnemigo(this.Enemigo);
+			// Se genera un enemigo si se dan las precondiciones y se dan despues las invariantes 
+			this.juego.generarEnemigo(this.Enemigo); 
+			//Una vez el hijo termina su ejecucion se duerme durante 1 a 5 segundos 
 			TimeUnit.MILLISECONDS.sleep(new Random().nextInt(5)*1000);
 		}catch(InterruptedException e) {
+			// En caso de que el hilo quede interrumpido se tratara la excepcion 
 			Logger.getGlobal().log(Level.INFO, "Actividad enemiga interrumpida");
 			Logger.getGlobal().log(Level.INFO, e.toString());
 			return;
